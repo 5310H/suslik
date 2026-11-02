@@ -113,6 +113,10 @@ and correct the record.
 
 ## Quick start
 
+**Home Assistant OS:** an experimental native amd64 CPU add-on is available.
+See [installation, configuration and backup instructions](suslik-addon/DOCS.md).
+Existing Docker deployments continue to use the instructions below.
+
 Run the variant that matches your hardware (CPU shown here; see the guide for Intel/NVIDIA):
 
 ```yaml

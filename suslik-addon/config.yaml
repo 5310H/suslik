@@ -1,0 +1,25 @@
+name: Suslik
+version: "0.1.1.048-1"
+slug: suslik
+description: Frigate companion for face recognition and cross-camera scenarios
+url: https://github.com/5310H/suslik
+arch:
+  - amd64
+startup: application
+boot: auto
+init: true
+timeout: 120
+stage: experimental
+ports:
+  8199/tcp: null
+ports_description:
+  8199/tcp: Unauthenticated web UI; enable only on a trusted network
+webui: http://[HOST]:[PORT:8199]/
+watchdog: http://[HOST]:8199/health
+backup: cold
+options:
+  frigate_url: ""
+schema:
+  frigate_url: str
+  poll_interval: int(5,300)?
+  cpu_threads: int(0,64)?

@@ -7,3 +7,4 @@ docker/buffalo_l/
 verify_data/
 samples/
 *.tar.gz
+.tmp/
