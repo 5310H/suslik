@@ -31,9 +31,14 @@ build. No application source is modified. The upstream release, rather than loca
 application edits, is what the add-on runs. Updating it requires changing the
 digest, release reference and add-on version together. No new pip/apt dependencies
 are installed. An official Alpine HA base would be incompatible with these glibc
-ML wheels; Supervisor's default init is used with the existing Debian image.
+ML wheels. Official Debian/Ubuntu HA bases could support glibc, but rebuilding
+the application on them would still require the missing model assets and a new
+runtime qualification. Supervisor's default init is used with the existing Debian image.
 
-The entrypoint reads /data/options.json, validates types/ranges and URLs, and
+The Dockerfile directly pins its base image, with no deprecated build.yaml.
+It supplies the current `io.hass.type=app`, version and architecture labels;
+Supervisor's default init/startup/boot settings apply. The entrypoint reads
+/data/options.json, validates types/ranges and URLs, and
 atomically merges supported options into the existing /data/config/config.json.
 Other UI settings and secrets survive. Empty frigate_url leaves wizard/UI
 configuration intact. Provided options are authoritative on each restart; CPU
@@ -68,8 +73,9 @@ reverse proxy serving Suslik at its own URL root. The UI has no add-on-provided
 authentication. Do not publish it directly to the internet.
 
 Existing MQTT and configured HA/Telegram calls remain available; there is no new
-entity integration, discovery or invented webhook. /health supplies the optional
-Supervisor HTTP liveness watchdog. It returns HTTP 200 even when its JSON `ok`
+entity integration, discovery or invented webhook. A native Docker HEALTHCHECK
+uses /health for HTTP liveness, without the obsolete watchdog metadata field.
+The endpoint returns HTTP 200 even when its JSON `ok`
 flag is false; inspect that flag and logs for application/dependency health.
 exec preserves signal delivery; verifyd registers SIGTERM
 and SIGINT handlers and worker cleanup. Supervisor allows 120 seconds to stop.
@@ -78,9 +84,12 @@ and SIGINT handlers and worker cleanup. Supervisor allows 120 seconds to stop.
 
 Unit tests exercise real wrapper parsing, atomic merge, restart/upgrade state
 preservation, invalid credentials-in-URL rejection, and fail-closed behavior.
-CI checks metadata with the HA builder/linter ecosystem and builds amd64, then
-runs the actual image for first startup, restart, health and graceful termination
-against an unreachable Frigate endpoint. These are Docker simulations, not HAOS
+CI checks metadata with the HA add-on linter and builds amd64, then
+runs the actual image with Docker init, no network and private named volumes.
+It tests first startup without credentials, HTTP UI/liveness, graceful termination,
+unavailable Frigate, configuration failure without secret leakage, recreated
+containers and a cold filesystem backup restored into a new volume.
+These are Docker simulations, not HAOS
 certification. Real HAOS store registration, wizard completion, Frigate login,
 recognition accuracy, resource sizing and backup/restore remain release gates.
 Local Docker availability and executed test results are recorded at delivery.

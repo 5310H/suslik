@@ -4,20 +4,31 @@
 
 - Six stdlib unit tests passed on Python 3.12 (2026-11-02).
 - YAML/JSON parsing and cross-file metadata invariants passed with PyYAML 6.0.3.
+- Home Assistant add-on linter v2.21.0 passed (its unmodified Docker image, built
+  from upstream commit f995494fd84fae6310d23617e66d0e37de4f14eb).
+- The amd64 add-on image built successfully from the immutable CPU release.
+- Actual-image Docker tests passed with init enabled, no external network, no
+  published ports and private named volumes: first-run UI without credentials,
+  HTTP health check, unavailable Frigate, clean exit code 0 on stop, container
+  recreation, preserved settings/credentials/learning data, invalid options
+  rejected without leaking their secret, and cold tar backup/restore.
+- The unmodified pinned standalone image starts with the add-on's restored store
+  and preserves the checked settings, credentials and learning data on shutdown.
 - Python syntax checks and git diff whitespace checks passed.
 - Registry manifest verified: pinned CPU release provides linux/amd64 only.
 - Existing application Python, Dockerfiles and standalone configs are unchanged.
 
-## Not executed locally
+## Remaining validation
 
-Docker Desktop has no running Linux daemon. Image build, actual application
-startup, recognition, process shutdown and container recreation tests could not
-run locally. The GitHub workflow contains an amd64 build and actual-image Docker
-smoke test; adding a workflow is not evidence that it has passed.
+Docker Desktop was started and the local build/runtime tests above completed.
+These tests simulate deployment and filesystem backup; they do not run Supervisor
+or Home Assistant OS. No real Frigate, camera recordings, recognition corpus,
+MQTT broker or HA installation was available. Future application-version upgrade
+migrations are not tested by recreating the same image.
 
 ## Before production acceptance
 
-- Run the workflow, including the Home Assistant add-on schema linter.
+- Confirm the GitHub workflow runs on the repository; local equivalents pass.
 - Register this repository after merge and confirm store discovery on amd64 HAOS.
 - Install, configure Frigate, complete the wizard, analyze known recordings and
   compare results with the same standalone CPU version.

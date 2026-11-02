@@ -73,10 +73,11 @@ For connectivity errors check the URL, DNS, port and Frigate availability from
 the add-on network. Frigate must be reachable over the network; no host networking
 is requested. Optional streams, brokers and notification endpoints also need
 connectivity. Failed credentials should be corrected in Suslik, not included in
-an issue report. /health is used by Supervisor's optional Watchdog; only enable
-Watchdog after initial setup and Frigate connection are working. This is an HTTP
-liveness check: upstream /health returns 200 even when JSON `ok` is false.
-Inspect that field and the logs for processing and dependency failures.
+an issue report. A native Docker health check probes /health every 30 seconds,
+with a three-minute startup allowance. This is an HTTP liveness check: upstream
+/health returns 200 even when JSON `ok` is false. Inspect that field and the logs
+for processing and dependency failures. The add-on does not request automatic
+restarts for Frigate outages.
 
 CPU analysis needs substantial RAM and CPU time; a small HA appliance may not be
 suitable. GPU variants and aarch64 require separate dependency/hardware testing.

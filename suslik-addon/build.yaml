@@ -1,2 +1,0 @@
-build_from:
-  amd64: ghcr.io/bennobaer-dev/suslik:0.1.1.048-cpu@sha256:0a73af4efad3a595d7104881015d7eca51f4d318d820c40f018c9f093c0df636
