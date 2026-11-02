@@ -117,6 +117,12 @@ and correct the record.
 See [installation, configuration and backup instructions](suslik-addon/DOCS.md).
 Existing Docker deployments continue to use the instructions below.
 
+**Combined Frigate + Suslik prototype:** a separate
+[HAOS test add-on](frigate-suslik-addon/DOCS.md) runs Suslik-derived confirmation
+and a Visits view inside a pinned Frigate fork. This experimental option uses
+Frigate's face inference and USB Coral for object detection; it is a partial
+integration and does not replace the standalone application above.
+
 Run the variant that matches your hardware (CPU shown here; see the guide for Intel/NVIDIA):
 
 ```yaml

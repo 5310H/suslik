@@ -1,4 +1,4 @@
-Title: Add experimental native Home Assistant OS add-on for Suslik CPU
+Title: Add standalone Suslik and combined native Frigate/Suslik HAOS options
 
 Base: main
 Head: feature/haos-addon
@@ -6,6 +6,13 @@ Head: feature/haos-addon
 Adds Supervisor packaging for the existing Suslik 0.1.1.048 CPU release, using a
 digest-pinned image because model assets needed for source builds are absent from
 this checkout. Standalone code, images and configuration remain unchanged.
+
+Also adds a separate **Frigate + Suslik Test** add-on. It builds a checksummed,
+commit-pinned Frigate 0.18.2 fork containing Suslik-derived temporal confirmation
+and cross-camera grouping, sharing Frigate inference and adding a native Visits
+API/UI. It is a partial native integration, not the full standalone Suslik app.
+USB Coral access, HA Ingress and private config/database/media support isolated
+testing without mounting or replacing an existing Frigate installation.
 
 The amd64 add-on validates Supervisor options and atomically merges them into
 Suslik's persistent config store. It includes private /data storage, cold backups,
@@ -20,6 +27,12 @@ image builds, starts its first-run UI, handles an unavailable Frigate endpoint,
 stops cleanly, preserves state across recreation, rejects credential-bearing
 URLs without leaking secrets, and starts from a cold filesystem backup restore.
 The unmodified standalone image also starts using that restored configuration.
+
+The combined add-on additionally passes HA schema/pin/isolation checks, six
+bootstrap tests, all 26 native integration tests inside its built image, and
+actual startup/Ingress-prefix/recreation/cold-restore simulations. Its source
+fork passes 114 existing Frigate regressions. Real HAOS/USB/camera accuracy and
+CPU measurements remain acceptance gates; see docs/HAOS-NATIVE-FRIGATE.md.
 
 The Dockerfile supplies its immutable base and current image labels directly;
 deprecated build.yaml and watchdog metadata are removed. A native Docker

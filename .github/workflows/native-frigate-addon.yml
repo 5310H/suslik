@@ -1,0 +1,39 @@
+name: Native Frigate Suslik HAOS test add-on
+on:
+  push:
+    paths: ['frigate-suslik-addon/**', 'repository.json', '.github/workflows/native-frigate-addon.yml']
+  pull_request:
+    paths: ['frigate-suslik-addon/**', 'repository.json', '.github/workflows/native-frigate-addon.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install PyYAML==6.0.3
+      - run: python -m unittest discover -s frigate-suslik-addon/tests -p 'test_*.py' -v
+      - run: python frigate-suslik-addon/tests/validate_metadata.py
+      - uses: frenck/action-addon-linter@v2.21.0
+        with:
+          path: ./frigate-suslik-addon
+  build-and-test:
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: docker build --platform linux/amd64 -t frigate-suslik-addon:test frigate-suslik-addon
+      - name: Pinned native logic, processor and API tests
+        run: >-
+          docker run --rm --network none --entrypoint python3 frigate-suslik-addon:test
+          -m unittest frigate.test.test_suslik frigate.test.test_suslik_config
+          frigate.test.test_suslik_processor frigate.test.http_api.test_http_suslik -v
+      - run: python frigate-suslik-addon/tests/smoke.py

@@ -1,3 +1,5 @@
 suslik-addon/*.sh text eol=lf
 suslik-addon/**/*.py text eol=lf
 suslik-addon/*.py text eol=lf
+frigate-suslik-addon/**/*.py text eol=lf
+frigate-suslik-addon/*.py text eol=lf
