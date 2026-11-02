@@ -77,3 +77,11 @@ class BootstrapTests(unittest.TestCase):
         self.options.write_text(json.dumps({"plus_api_key": "test-secret"}))
         adapter.bootstrap(self.data)
         self.assertNotIn("test-secret", (self.data / "config/config.yml").read_text())
+
+    def test_runtime_cache_exists_before_s6_on_fresh_and_existing_config(self):
+        cache = self.data / "temporary/cache"
+        adapter.prepare_runtime(self.data, cache)
+        self.assertTrue(cache.is_dir())
+        cache.rmdir()
+        adapter.prepare_runtime(self.data, cache)
+        self.assertTrue(cache.is_dir())

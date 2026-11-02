@@ -42,8 +42,9 @@ on a compatible CPU for face recognition.
 ## Executed validation (2026-11-02)
 
 - HA add-on linter v2.21.0 and metadata/source-pin/isolation invariants pass.
-- Six bootstrap tests pass: first install, restart preservation, yaml extension,
-  invalid options, failed atomic writes, and keeping secrets out of seeded YAML.
+- Seven bootstrap tests pass: first install, restart preservation, yaml extension,
+  invalid options, failed atomic writes, keeping secrets out of seeded YAML,
+  and preparing the temporary cache before parallel s6 services start.
 - The actual amd64 add-on image builds successfully from the checksummed archive.
 - All 26 native logic/config/processor/API tests pass inside that add-on image.
   Processor classifiers are stubbed; these are not recognition-accuracy tests.

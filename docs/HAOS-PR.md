@@ -28,7 +28,7 @@ stops cleanly, preserves state across recreation, rejects credential-bearing
 URLs without leaking secrets, and starts from a cold filesystem backup restore.
 The unmodified standalone image also starts using that restored configuration.
 
-The combined add-on additionally passes HA schema/pin/isolation checks, six
+The combined add-on additionally passes HA schema/pin/isolation checks, seven
 bootstrap tests, all 26 native integration tests inside its built image, and
 actual startup/Ingress-prefix/recreation/cold-restore simulations. Its source
 fork passes 114 existing Frigate regressions. Real HAOS/USB/camera accuracy and

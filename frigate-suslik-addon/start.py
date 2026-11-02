@@ -48,12 +48,19 @@ def bootstrap(data=Path("/data")):
             temporary.unlink(missing_ok=True)
 
 
+def prepare_runtime(data=Path("/data"), cache=Path("/tmp/cache")):
+    bootstrap(data)
+    # go2rtc starts in parallel with Frigate and needs this before Frigate's
+    # application startup creates it. /tmp is an empty tmpfs on every HA start.
+    cache.mkdir(parents=True, exist_ok=True)
+
+
 if __name__ == "__main__":
     try:
-        bootstrap()
+        prepare_runtime()
     except (ValueError, OSError):
         print(
-            "[Frigate + Suslik] Cannot initialize private data or options; check configuration, permissions and free space",
+            "[Frigate + Suslik] Cannot initialize storage or options; check configuration, permissions and free space",
             file=sys.stderr,
         )
         sys.exit(1)

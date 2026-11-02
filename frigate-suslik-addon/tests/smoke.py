@@ -75,7 +75,9 @@ def stop(name):
     logs = subprocess.run(
         ["docker", "logs", name], check=True, text=True, capture_output=True
     )
-    assert "Service Frigate exited with code 0" in logs.stdout + logs.stderr
+    output = logs.stdout + logs.stderr
+    assert "Service Frigate exited with code 0" in output
+    assert "/tmp/cache/homekit_config.json: No such file or directory" not in output
     docker("rm", name)
 
 

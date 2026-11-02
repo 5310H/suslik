@@ -1,5 +1,5 @@
 name: Frigate + Suslik Test
-version: "0.18.2-suslik.1-1"
+version: "0.18.2-suslik.1-2"
 slug: frigate_suslik_test
 description: Experimental native Frigate with Suslik confirmation and cross-camera visits
 url: https://github.com/5310H/frigate/tree/feature/suslik-native
