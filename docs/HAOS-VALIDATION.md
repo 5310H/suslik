@@ -29,7 +29,8 @@ migrations are not tested by recreating the same image.
 ## Before production acceptance
 
 - Confirm the GitHub workflow runs on the repository; local equivalents pass.
-- Register this repository after merge and confirm store discovery on amd64 HAOS.
+- Register `https://github.com/5310H/suslik#feature/haos-addon` before merge (or
+  the plain repository URL after merge) and confirm store discovery on amd64 HAOS.
 - Install, configure Frigate, complete the wizard, analyze known recordings and
   compare results with the same standalone CPU version.
 - Test valid/invalid Frigate credentials and unavailable Frigate/MQTT endpoints;

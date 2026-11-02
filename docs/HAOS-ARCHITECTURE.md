@@ -96,3 +96,6 @@ Local Docker availability and executed test results are recorded at delivery.
 
 References: https://contributors.home-assistant.io/apps/reference/configuration/
 and https://contributors.home-assistant.io/apps/guides/dockerfile/.
+Pre-merge repository registration can select `#feature/haos-addon`; Supervisor
+parses the branch suffix and passes it to Git clone (supervisor/validate.py and
+supervisor/store/git.py in https://github.com/home-assistant/supervisor).

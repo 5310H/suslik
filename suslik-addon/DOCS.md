@@ -2,10 +2,13 @@
 
 1. In Home Assistant OS open **Settings → Apps** (called **Add-ons** in older
    versions), open the store, then **Repositories** from the menu.
-2. Add `https://github.com/5310H/suslik`. The add-on files must be on the
-   repository's default branch to appear; a feature branch alone is not installed
-   by adding that URL. For pre-merge testing copy `suslik-addon` into HA's local
-   add-ons directory and reload the store.
+2. While this change is awaiting merge, add
+   `https://github.com/5310H/suslik#feature/haos-addon` to test the feature branch.
+   Supervisor supports selecting a repository branch with the `#branch` suffix.
+   After merge, use `https://github.com/5310H/suslik` for the default branch.
+   Alternatively copy `suslik-addon` into HA's local add-ons directory and reload
+   the store. Branch and default-branch repositories have different identities;
+   use Suslik's portable full backup/restore to migrate between their installs.
 3. Install **Suslik** on an amd64 system. Installation downloads the large CPU
    image with its models. ARM boards are unsupported and will not show the add-on.
 4. Under Configuration optionally set `frigate_url`, for example
