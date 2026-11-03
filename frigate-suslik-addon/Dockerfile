@@ -37,7 +37,7 @@ RUN mkdir -p /config /media/frigate \
     && ln -s /data/config /config \
     && ln -s /data/media /media/frigate \
     && python3 -c 'from pathlib import Path; Path("/opt/frigate/frigate/version.py").write_text("VERSION = \"0.19.0-dev-suslik.2\"\n")'
-ARG BUILD_VERSION=0.19.0-dev-suslik.2-3
+ARG BUILD_VERSION=0.19.0-dev-suslik.2-5
 ARG BUILD_ARCH=amd64
 LABEL io.hass.type="app" io.hass.version="${BUILD_VERSION}" io.hass.arch="${BUILD_ARCH}" \
       org.opencontainers.image.source="https://github.com/5310H/suslik" \

@@ -10,6 +10,7 @@ dockerfile = (addon / "Dockerfile").read_text()
 assert config["arch"] == ["amd64"]
 assert config["init"] is False
 assert config["usb"] is True
+assert config["host_network"] is True
 assert config["environment"] == {"FRIGATE_RUN_AS_ROOT": "true"}
 assert config["ingress"] is True and config["ingress_port"] == 5000
 assert config["boot"] == "manual" and config["backup"] == "cold"
@@ -20,7 +21,6 @@ assert not any(
         "map",
         "privileged",
         "full_access",
-        "host_network",
         "docker_api",
         "hassio_api",
         "homeassistant_api",
@@ -37,4 +37,4 @@ assert (
     json.loads((addon.parent / "repository.json").read_text())["url"]
     == "https://github.com/5310H/suslik"
 )
-print("Combined Frigate/Suslik HAOS metadata, isolation and source pins passed")
+print("Combined Frigate/Suslik HAOS metadata, host networking, storage isolation and source pins passed")

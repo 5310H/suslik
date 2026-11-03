@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.19.0-dev-suslik.2-5
+
+- Enable host networking for direct local Wyze P2P connections without Docker
+  bridge NAT. This does not establish the cause of camera handshake timeouts.
+- Retain ingress and private storage; document shared listening ports, direct
+  service access, and update/restart verification.
+
 ## 0.19.0-dev-suslik.2-3
 
 - Add Connect a Wyze camera to the Add Camera UI: private account discovery,

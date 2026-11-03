@@ -18,14 +18,34 @@ upgrading from 0.18.2; restore that full backup to downgrade after migrations.
    source and UI on the device; the initial download/build is large and can take
    several minutes. Allow several GB of disk and memory headroom.
 3. Start it and choose **Open Web UI**. HA Ingress is provided on internal port
-   5000. No host ports are published, so it does not conflict with existing
-   Frigate ports. The initial config has no cameras, MQTT, recording or face
+   5000. This app uses host networking for direct local camera connections.
+   Stop any other Frigate instance using the same listening ports before starting
+   it, or configure distinct listening ports. The initial config has no cameras, MQTT, recording or face
    inference enabled. The **Visits (Suslik)** page is available in navigation.
 
 All Frigate settings live in its own Settings/configuration UI. The add-on's only
 optional Supervisor setting is the existing Frigate `plus_api_key`; it is not
 needed for this test. Secrets belong in your private configuration, never an
 image, public issue or source repository.
+
+## Host networking upgrade
+
+Version `0.19.0-dev-suslik.2-5` enables `host_network: true` to remove Docker
+bridge NAT from local Wyze P2P connections. This is a networking diagnostic
+change; a P2P handshake timeout may still have other causes.
+
+Refresh the repository in the app store, update/rebuild this app, and restart it
+so Supervisor recreates the container with host networking. Confirm with
+`docker inspect --format '{{.HostConfig.NetworkMode}}' app_bf34abb3_frigate_suslik_test`;
+the result should be `host`. Then retry the Wyze stream and check the go2rtc logs.
+
+Host networking shares all listening ports with HAOS; Docker port publishing
+settings no longer isolate them. Check for conflicts with other Frigate/go2rtc
+instances, including ports 5000, 8971, 1984, 8554 and 8555, depending on your
+configuration. Services bound to LAN interfaces become directly reachable,
+including Frigate's unauthenticated port 5000. Keep access restricted to a
+trusted network. Ingress remains available on port 5000. Existing camera and
+media data stays in the app's private storage.
 
 ## One-camera USB Coral test
 
@@ -83,7 +103,7 @@ Supervisor's private `/data/config` holds Frigate's config, database, model cach
 and secrets. `/data/media` holds this app's clips, learned face pictures, exports
 and recordings. The image links Frigate's usual `/config` and `/media/frigate`
 paths to those directories. It has no shared media, production Frigate config,
-Home Assistant config, Docker socket or host-network mount.
+Home Assistant config or Docker socket. Networking is shared with the HAOS host.
 
 All test data survives restart and image recreation. Select this app in HA
 backups; cold backup stops it for consistency and includes its private data.
