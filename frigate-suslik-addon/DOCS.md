@@ -3,6 +3,13 @@
 This experimental app is a separate Frigate installation. It does not replace
 the existing Frigate or standalone Suslik apps.
 
+## Upstream development preview
+
+Version `0.19.0-dev-suslik.2-1` integrates upstream Frigate development commit
+`2b4397bcba108b66241e4b2197c6bc7fb2d6bc3c`. This is a development preview,
+not a stable Frigate release. Back up the app and its private data before
+upgrading from 0.18.2; restore that full backup to downgrade after migrations.
+
 ## Installation
 
 1. Add or refresh `https://github.com/5310H/suslik#feature/haos-addon` in the
@@ -100,6 +107,13 @@ This ports confirmation/grouping and a Visits view, not every standalone Suslik
 learning, reference or notification page. Existing Frigate screens provide face
 enrollment/configuration. Names in retained historical events reflect their
 stored labels; time grouping does not identify unknown people across cameras.
+
+The HAOS adapter keeps upstream service processes running as root via
+`FRIGATE_RUN_AS_ROOT=true`, matching the previous add-on. HAOS mounts `/dev`
+read-only, which prevents the new upstream non-root startup from applying USB
+ACLs. This compatibility setting avoids changing host device permissions or
+requesting additional privileges. The standalone native image retains upstream
+non-root defaults.
 
 Protected mode remains enabled. USB access is needed for the USB Coral; tmpfs
 provides temporary segment/cache space. No elevated capabilities or Supervisor/

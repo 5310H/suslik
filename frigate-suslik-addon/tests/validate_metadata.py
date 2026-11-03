@@ -10,6 +10,7 @@ dockerfile = (addon / "Dockerfile").read_text()
 assert config["arch"] == ["amd64"]
 assert config["init"] is False
 assert config["usb"] is True
+assert config["environment"] == {"FRIGATE_RUN_AS_ROOT": "true"}
 assert config["ingress"] is True and config["ingress_port"] == 5000
 assert config["boot"] == "manual" and config["backup"] == "cold"
 assert not any(

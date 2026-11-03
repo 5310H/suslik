@@ -37,3 +37,4 @@ jobs:
           -m unittest frigate.test.test_suslik frigate.test.test_suslik_config
           frigate.test.test_suslik_processor frigate.test.http_api.test_http_suslik -v
       - run: python frigate-suslik-addon/tests/smoke.py
+      - run: python frigate-suslik-addon/tests/upgrade.py

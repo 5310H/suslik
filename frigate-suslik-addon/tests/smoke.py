@@ -4,11 +4,12 @@ No HAOS, real camera, Coral access or face inference is exercised here.
 """
 
 import json
+import os
 import subprocess
 import time
 import uuid
 
-IMAGE = "frigate-suslik-addon:test"
+IMAGE = os.environ.get("SUSLIK_ADDON_TEST_IMAGE", "frigate-suslik-addon:test")
 
 
 def docker(*args, **kwargs):
@@ -30,6 +31,8 @@ def start(name, volume):
         name,
         "--network",
         "none",
+        "-e",
+        "FRIGATE_RUN_AS_ROOT=true",
         "--tmpfs",
         "/tmp",
         "--mount",
@@ -43,7 +46,7 @@ def wait_ready(name):
         "import json,urllib.request; from pathlib import Path; "
         "u='http://127.0.0.1:5000'; "
         "v=urllib.request.urlopen(u+'/api/version',timeout=5).read().decode(); "
-        "assert '0.18.2-suslik.1' in v; "
+        "assert '0.19.0-dev-suslik.2' in v; "
         "r=json.load(urllib.request.urlopen(u+'/api/events/suslik/visits',timeout=5)); "
         "assert r['visits']==[]; "
         "req=urllib.request.Request(u+'/visits',headers={'X-Ingress-Path':'/api/hassio_ingress/test-token'}); "
@@ -57,6 +60,7 @@ def wait_ready(name):
     while time.monotonic() < deadline:
         result = subprocess.run(
             ["docker", "exec", name, "python3", "-c", probe],
+            check=False,
             capture_output=True,
             timeout=25,
         )

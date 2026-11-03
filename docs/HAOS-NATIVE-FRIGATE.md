@@ -9,9 +9,9 @@ shares Frigate's inference; it does not port every standalone Suslik feature.
 ## Reproducible source and storage
 
 `frigate-suslik-addon/Dockerfile` fetches public fork commit
-`dc27b5a9eaeb2f469336722fa51f36cc05cfccba` from 5310H/frigate and checks the
+`c8b5768d42204982d30f63af6ecdc419a9c1adcc` from 5310H/frigate and checks the
 source tarball SHA-256 before extraction. Its Node build image and official
-Frigate 0.18.2 runtime are digest-pinned. The native fork's runtime and compiled
+Frigate development runtime at upstream commit `2b4397bc` are digest-pinned. The native fork's runtime and compiled
 UI are built together; no credentials or installation-specific camera settings
 are part of that source archive or image.
 
@@ -23,6 +23,10 @@ exports, recordings). Frigate's standard paths are symlinks into that volume.
 No production Frigate or Home Assistant config/media path is mounted. Cold
 backups stop the app and include the private volume. Recording starts disabled.
 
+This `0.19.0-dev-suslik.2-1` package is a development preview. Back up all app
+data before updating from 0.18.2; downgrade by restoring that backup after
+migrations. The prior 0.18.2 source pin remains in Git history.
+
 ## Permissions and network
 
 Supervisor USB passthrough is requested for a USB Coral. No PCIe devices, GPU
@@ -32,6 +36,11 @@ The app needs no Supervisor/Core API permission; optional inherited Supervisor
 tokens are removed before starting s6, avoiding optional go2rtc address discovery.
 tmpfs provides temporary cache space. No host ports are published.
 
+The HAOS adapter sets `FRIGATE_RUN_AS_ROOT=true` to retain the previous service
+identity: Supervisor mounts `/dev` read-only, so upstream non-root initialization
+cannot apply its device ACLs. It does not request additional host capabilities or
+modify device permissions. The native standalone image retains upstream defaults.
+
 HA Ingress uses Frigate's existing prefix-aware Nginx/frontend on internal port
 5000. Frigate's native Docker health check is retained. The no-camera bootstrap
 does not claim the Coral or download face models. Configure the camera, detector
@@ -39,7 +48,18 @@ and face recognition in Frigate's own UI after installation. Coral handles
 object detection; this USB-only package provides no GPU passthrough and relies
 on a compatible CPU for face recognition.
 
-## Executed validation (2026-11-02)
+## Upstream development validation (2026-11-02)
+
+- Matching upstream runtime, TypeScript/Vite build and integration-file ESLint pass.
+- 26 native tests and 153 upstream configuration/event/camera-access regressions pass.
+- OpenAPI and config translations regenerated; API spec freshness check passes.
+- Native no-camera s6 startup, Visits API/UI assets and clean shutdown pass.
+- The checksummed HA package builds and passes all 26 native tests.
+- Package startup, Ingress prefix, restart persistence and cold filesystem restore pass.
+- A real 0.18.2 database/config upgrades with SQLite integrity, custom Suslik
+  settings and private media preserved. This is a Docker simulation, not a live HAOS upgrade.
+
+## Original 0.18.2 validation (2026-11-02)
 
 - HA add-on linter v2.21.0 and metadata/source-pin/isolation invariants pass.
 - Seven bootstrap tests pass: first install, restart preservation, yaml extension,

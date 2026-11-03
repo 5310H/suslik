@@ -1,8 +1,8 @@
 name: Frigate + Suslik Test
-version: "0.18.2-suslik.1-2"
+version: "0.19.0-dev-suslik.2-1"
 slug: frigate_suslik_test
 description: Experimental native Frigate with Suslik confirmation and cross-camera visits
-url: https://github.com/5310H/frigate/tree/feature/suslik-native
+url: https://github.com/5310H/frigate/tree/feature/suslik-upstream-2026-11-02
 arch:
   - amd64
 stage: experimental
@@ -13,6 +13,8 @@ ingress: true
 ingress_port: 5000
 panel_icon: mdi:cctv
 usb: true
+environment:
+  FRIGATE_RUN_AS_ROOT: "true"
 tmpfs: true
 backup: cold
 schema:
