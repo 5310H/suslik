@@ -8,6 +8,7 @@ import ipaddress
 import json
 import os
 import re
+import sys
 import tempfile
 from pathlib import Path
 from urllib.parse import parse_qs, urlencode, urlsplit, urlunsplit
@@ -97,6 +98,9 @@ def save_config(path, config, original):
     yaml.dump(config, stream)
     rendered = stream.getvalue()
     # Validate using the actual Frigate schema before touching the user's YAML.
+    # Direct execution sets sys.path to /ha rather than Frigate's source root.
+    if "/opt/frigate" not in sys.path:
+        sys.path.insert(0, "/opt/frigate")
     from frigate.config import FrigateConfig
 
     try:

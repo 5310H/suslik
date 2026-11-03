@@ -9,7 +9,7 @@ shares Frigate's inference; it does not port every standalone Suslik feature.
 ## Reproducible source and storage
 
 `frigate-suslik-addon/Dockerfile` fetches public fork commit
-`c8b5768d42204982d30f63af6ecdc419a9c1adcc` from 5310H/frigate and checks the
+`9a82408ce6ccceeccd15bc8997c25683e87364eb` from 5310H/frigate and checks the
 source tarball SHA-256 before extraction. Its Node build image and official
 Frigate development runtime at upstream commit `2b4397bc` are digest-pinned. The native fork's runtime and compiled
 UI are built together; no credentials or installation-specific camera settings

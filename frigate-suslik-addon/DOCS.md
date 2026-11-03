@@ -105,7 +105,16 @@ no separate bridge is needed. Firmware 4.25.1.368 has not yet been tested on
 hardware. Keep that firmware for the first test. Cam v3 and the original
 Floodlight/v3 retain their existing path; 4.36.17.21 also needs a live test.
 
-After updating and starting this test app, run this in your HA SSH terminal,
+From version 0.19.0-dev-suslik.2-3, open Frigate **Settings > Cameras >
+Add New Camera > Connect a Wyze camera**. Enter the account fields and choose
+**Discover cameras**. Select your camera, verify its current IPv4 address,
+choose an unused camera name, and select **Save camera**. After saving,
+**Restart Frigate** activates the camera and briefly interrupts all cameras.
+Account fields are cleared after successful discovery; camera device keys stay
+on the server. Discovery sessions expire after ten minutes. The UI supports
+Doorbell v1 and Cam v3/original Floodlight with compatible DTLS firmware.
+
+The Terminal helper is also available. Run this in your HA SSH terminal,
 replacing CAMERA_IP with the doorbell's current address:
 
 ```sh

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.19.0-dev-suslik.2-3
+
+- Add Connect a Wyze camera to the Add Camera UI: private account discovery,
+  camera selection, current IP, validated saving and an explicit restart button.
+- Keep device keys on the server, expire discovery sessions after ten minutes,
+  restrict discovery/saving to admins, and preserve existing cameras/Coral settings.
+- Fix the Terminal helper's Frigate import path when launched directly from /ha.
+- Hardware compatibility remains experimental; successful discovery does not
+  establish working live video on the requested firmware.
+
 ## 0.19.0-dev-suslik.2-2
 
 - Bundle a pinned go2rtc build with the proposed Doorbell v1 AES/DTLS,

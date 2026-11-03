@@ -50,6 +50,8 @@ def wait_ready(name):
         "g=json.load(urllib.request.urlopen('http://127.0.0.1:1984/api',timeout=5)); "
         "assert g['version']=='1.9.14+wyzedb3.1', g; "
         "assert Path('/ha/wyze_setup.py').exists(); "
+        "assert Path('/opt/frigate/frigate/api/wyze.py').exists(); "
+        "assert json.loads(Path('/opt/frigate/web/locales/en/views/settings.json').read_text())['wyze']['open']=='Connect a Wyze camera'; "
         "r=json.load(urllib.request.urlopen(u+'/api/events/suslik/visits',timeout=5)); "
         "assert r['visits']==[]; "
         "req=urllib.request.Request(u+'/visits',headers={'X-Ingress-Path':'/api/hassio_ingress/test-token'}); "

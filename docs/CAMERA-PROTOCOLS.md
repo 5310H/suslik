@@ -24,7 +24,10 @@ tests and a private interactive setup helper. See the add-on DOCS.md and
 go2rtc/README.md for setup and patch provenance. Target WYZEDB3 firmware is
 4.25.1.368; the PR author tested 4.25.1.333. Neither the requested doorbell
 firmware nor Floodlight/v3 4.36.17.21 has passed our physical acceptance yet.
-No new graphical onboarding UI or live Wyze account test has been completed.
+Version 0.19.0-dev-suslik.2-3 adds native graphical onboarding in the Add Camera
+dialog with admin-only discovery, server-held device keys, validated saving,
+private rollback copies and an explicit restart action. Live camera acceptance
+has not been completed.
 A successful RTSP test does not verify stock Wyze P2P compatibility.
 
 ## Reolink Baichuan

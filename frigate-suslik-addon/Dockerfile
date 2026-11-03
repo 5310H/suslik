@@ -12,8 +12,8 @@ RUN test -z "$(gofmt -l pkg/tutk/dtls/dtls.go pkg/tutk/dtls/doorbell_test.go pkg
     && CGO_ENABLED=0 go build -trimpath -buildvcs=false -ldflags="-s -w" -o /out/go2rtc .
 
 FROM node:22@sha256:18a6d90fd60542269850c80ca03b29b1d9b14d6b221ac7ee8e35b0d33ef904bd AS source
-ARG SOURCE_COMMIT=c8b5768d42204982d30f63af6ecdc419a9c1adcc
-ADD --checksum=sha256:a7e34aa3671a0d460e36f91909d21228b50feda3d052040d10ae271d524e7f86 https://codeload.github.com/5310H/frigate/tar.gz/${SOURCE_COMMIT} /source.tar.gz
+ARG SOURCE_COMMIT=9a82408ce6ccceeccd15bc8997c25683e87364eb
+ADD --checksum=sha256:b133942788df170f9cbdbcdfa155bd71957bec6e2e40f85e7c7fdb245dcb2c12 https://codeload.github.com/5310H/frigate/tar.gz/${SOURCE_COMMIT} /source.tar.gz
 RUN mkdir /source && tar -xzf /source.tar.gz --strip-components=1 -C /source
 
 FROM source AS web-build
@@ -37,7 +37,7 @@ RUN mkdir -p /config /media/frigate \
     && ln -s /data/config /config \
     && ln -s /data/media /media/frigate \
     && python3 -c 'from pathlib import Path; Path("/opt/frigate/frigate/version.py").write_text("VERSION = \"0.19.0-dev-suslik.2\"\n")'
-ARG BUILD_VERSION=0.19.0-dev-suslik.2-2
+ARG BUILD_VERSION=0.19.0-dev-suslik.2-3
 ARG BUILD_ARCH=amd64
 LABEL io.hass.type="app" io.hass.version="${BUILD_VERSION}" io.hass.arch="${BUILD_ARCH}" \
       org.opencontainers.image.source="https://github.com/5310H/suslik" \

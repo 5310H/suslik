@@ -40,6 +40,7 @@ jobs:
         run: >-
           docker run --rm --network none --entrypoint python3 frigate-suslik-addon:test
           -m unittest frigate.test.test_suslik frigate.test.test_suslik_config
-          frigate.test.test_suslik_processor frigate.test.http_api.test_http_suslik -v
+          frigate.test.test_suslik_processor frigate.test.http_api.test_http_suslik
+          frigate.test.http_api.test_http_wyze -v
       - run: python frigate-suslik-addon/tests/smoke.py
       - run: python frigate-suslik-addon/tests/upgrade.py

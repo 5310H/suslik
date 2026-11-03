@@ -1,4 +1,6 @@
 import importlib.util
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -66,6 +68,18 @@ class WyzeDiscoveryTests(unittest.TestCase):
     importlib.util.find_spec("frigate"), "requires the real Frigate runtime schema"
 )
 class WyzeSaveTests(unittest.TestCase):
+    def test_direct_script_can_import_runtime_schema(self):
+        code = (
+            "import runpy,sys,tempfile; from pathlib import Path; "
+            "sys.path=[p for p in sys.path if p not in ('', '/opt/frigate')]; "
+            f"helper=runpy.run_path({setup.__file__!r}); "
+            "temp=tempfile.TemporaryDirectory(); path=Path(temp.name)/'config.yml'; "
+            "original=b'mqtt: {enabled: false}\\ncameras: {}\\n'; "
+            "path.write_bytes(original); "
+            "helper['save_config'](path, {'mqtt': {'enabled': False}, 'cameras': {}}, original)"
+        )
+        subprocess.run([sys.executable, "-c", code], check=True, capture_output=True)
+
     def setUp(self):
         from ruamel.yaml import YAML
 
