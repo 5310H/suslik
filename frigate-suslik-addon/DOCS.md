@@ -97,6 +97,35 @@ Uninstalling the test app can remove its own private data, so back it up first.
 
 ## Updates and limitations
 
+### Wyze Doorbell v1 test
+
+Version 0.19.0-dev-suslik.2-2 bundles experimental native Doorbell v1 support
+inside go2rtc. It needs stock Wyze DTLS firmware and Wyze account discovery;
+no separate bridge is needed. Firmware 4.25.1.368 has not yet been tested on
+hardware. Keep that firmware for the first test. Cam v3 and the original
+Floodlight/v3 retain their existing path; 4.36.17.21 also needs a live test.
+
+After updating and starting this test app, run this in your HA SSH terminal,
+replacing CAMERA_IP with the doorbell's current address:
+
+```sh
+docker exec -it app_bf34abb3_frigate_suslik_test python3 /ha/wyze_setup.py --ip CAMERA_IP
+```
+
+Enter your Wyze email, password, API ID and API key locally. Obtain API
+credentials from https://developer-api-console.wyze.com/ and never post them
+in chat or logs. Password/API prompts are hidden. Discovery may temporarily
+write account credentials to go2rtc's private configuration; upstream startup
+regenerates that configuration on restart. The Frigate YAML stores device
+connection keys, not your account password. Treat private data/backups as secrets.
+
+The helper selects the Doorbell v1, preserves other cameras and Coral settings,
+validates the resulting Frigate configuration, and creates a private rollback
+copy before saving. Confirm its local save prompt, then restart this test app.
+The new camera starts with video/person detection at 5 fps and recording off.
+Test live video first; two-way audio and doorbell-button events are not verified.
+If discovery fails, check account verification and API credentials locally.
+
 The Dockerfile pins the tested Frigate fork commit, source-archive checksum,
 official Frigate runtime digest and Node build image. Updates require a reviewed
 combined release: rebase on upstream Frigate, port relevant upstream Suslik

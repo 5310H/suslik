@@ -30,7 +30,7 @@ assert "watchdog" not in config and "webui" not in config
 assert f"ARG BUILD_VERSION={config['version']}" in dockerfile
 assert re.search(r"ARG SOURCE_COMMIT=[a-f0-9]{40}\b", dockerfile)
 assert re.search(r"ADD --checksum=sha256:[a-f0-9]{64} ", dockerfile)
-assert dockerfile.count("@sha256:") == 2
+assert dockerfile.count("@sha256:") == 3
 assert "ln -s /data/config /config" in dockerfile
 assert "ln -s /data/media /media/frigate" in dockerfile
 assert (

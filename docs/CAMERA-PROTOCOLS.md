@@ -18,8 +18,14 @@ the included native source supports the camera. Keep credentials in private
 storage and out of source, URLs displayed to users, and logs. The user completes
 account authentication. Thingino cameras should retain their working RTSP path.
 
-No new Wyze onboarding UI or live Wyze account test has been implemented in this
-release. A successful RTSP test does not verify stock Wyze P2P compatibility.
+The 0.19.0-dev-suslik.2-2 test package adds the proposed Doorbell v1 fixes
+from go2rtc PR #2399 on a checksummed v1.9.14 base, plus protocol regression
+tests and a private interactive setup helper. See the add-on DOCS.md and
+go2rtc/README.md for setup and patch provenance. Target WYZEDB3 firmware is
+4.25.1.368; the PR author tested 4.25.1.333. Neither the requested doorbell
+firmware nor Floodlight/v3 4.36.17.21 has passed our physical acceptance yet.
+No new graphical onboarding UI or live Wyze account test has been completed.
+A successful RTSP test does not verify stock Wyze P2P compatibility.
 
 ## Reolink Baichuan
 

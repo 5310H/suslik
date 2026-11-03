@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.19.0-dev-suslik.2-2
+
+- Bundle a pinned go2rtc build with the proposed Doorbell v1 AES/DTLS,
+  frame-layout, resolution and timestamp fixes, retaining the v3 path.
+- Add private interactive Wyze discovery and validated configuration saving
+  with rollback copies; no separate bridge or additional exposed ports.
+- Test protocol negotiation, frames, resolution commands and configuration
+  preservation. Doorbell firmware 4.25.1.368 and Floodlight/v3 firmware
+  4.36.17.21 still require physical camera acceptance.
+
 ## 0.19.0-dev-suslik.2-1
 
 - Integrate upstream Frigate dev commit 2b4397bc (2026-11-02), preserving
